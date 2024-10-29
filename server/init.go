@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/JinY3/gopkg/logx"
 	"github.com/gin-gonic/gin"
+	"github.com/jiny3/gopkg/logx"
 )
 
 func Init(r *gin.Engine) {

@@ -1,18 +1,18 @@
-module github.com/JinY3/mypower-monitor
+module github.com/jiny3/mypower-monitor
 
-go 1.22.1
+go 1.23.2
 
 require (
-	github.com/JinY3/gopkg v0.0.0-20240709071552-02497ef9ddac
-	github.com/chromedp/chromedp v0.9.5
+	github.com/chromedp/chromedp v0.11.1
 	github.com/gin-gonic/gin v1.10.0
+	github.com/jiny3/gopkg v0.0.0-20241029103528-29affabf5757
 )
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
-	github.com/chromedp/cdproto v0.0.0-20240721024200-dac8efcb39ce // indirect
-	github.com/chromedp/sysutil v1.0.0 // indirect
+	github.com/chromedp/cdproto v0.0.0-20241022234722-4d5d5faf59fb // indirect
+	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
@@ -54,7 +54,7 @@ require (
 	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

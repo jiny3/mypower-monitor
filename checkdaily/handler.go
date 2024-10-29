@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/JinY3/gopkg/filex"
-	"github.com/JinY3/gopkg/logx"
 	"github.com/chromedp/chromedp"
+	"github.com/jiny3/gopkg/filex"
+	"github.com/jiny3/gopkg/logx"
 )
 
 func (user *User) Check(token string) {

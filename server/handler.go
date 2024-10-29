@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/JinY3/gopkg/logx"
 	"github.com/gin-gonic/gin"
+	"github.com/jiny3/gopkg/logx"
 )
 
 // CORS中间件

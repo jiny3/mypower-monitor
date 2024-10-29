@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/JinY3/gopkg/filex"
-	"github.com/JinY3/gopkg/logx"
-	"github.com/JinY3/mypower-monitor/checkdaily"
-	"github.com/JinY3/mypower-monitor/server"
 	"github.com/gin-gonic/gin"
+	"github.com/jiny3/gopkg/filex"
+	"github.com/jiny3/gopkg/logx"
+	"github.com/jiny3/mypower-monitor/checkdaily"
+	"github.com/jiny3/mypower-monitor/server"
 )
 
 var checkdailyYaml struct {
@@ -30,9 +30,9 @@ func main() {
 		Token string            `json:"token"`
 		Users []checkdaily.User `json:"users"`
 	}) {
-		// for _, user := range yaml.Users {
-		// 	go user.Check(yaml.Token)
-		// }
+		for _, user := range yaml.Users {
+			go user.Check(yaml.Token)
+		}
 		for {
 			select {
 			case <-ctlCtx.Done():
