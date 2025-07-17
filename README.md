@@ -1,6 +1,6 @@
 # mypower-monitor
 
-ucasnj 电量监控
+学校宿舍电量监控
 
 ## usage
 
