@@ -6,12 +6,12 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jiny3/gopkg/logx"
+	"github.com/sirupsen/logrus"
 )
 
 func Init(r *gin.Engine) {
 	r.Use(gin.LoggerWithConfig(gin.LoggerConfig{
-		Output: logx.MyAll.Out,
+		Output: logrus.StandardLogger().Out,
 	}))
 	r.Use(cors)
 	r.LoadHTMLFiles("index.html")
@@ -29,7 +29,7 @@ func Init(r *gin.Engine) {
 		// 从my.js文件中读取内容并替换其中的ID
 		myjsContent, err := os.ReadFile("static/my.js")
 		if err != nil {
-			logx.MyAll.Errorf("读取my.js文件失败: %s", err)
+			logrus.WithError(err).Error("读取my.js文件失败")
 			c.JSON(http.StatusGatewayTimeout, gin.H{
 				"message": "读取文件失败",
 			})

@@ -5,12 +5,11 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/chromedp/chromedp"
 	"github.com/jiny3/gopkg/filex"
-	"github.com/jiny3/gopkg/logx"
+	"github.com/sirupsen/logrus"
 )
 
 func (user *User) Check(token string) {
@@ -35,9 +34,9 @@ func (user *User) Check(token string) {
 			chromedp.AttributeValue(`//*[@name="REMAINEQ"]`, "data-value", &dataValue, nil),
 		)
 		if err != nil {
-			logx.MyAll.WithField("user", user.Homeid).Errorf("查询电量失败: %s", err)
+			logrus.WithField("user", user.Homeid).WithError(err).Error("查询电量失败")
 		} else {
-			logx.MyAll.WithField("user", user.Homeid).Infof("查询电量成功: %s", dataValue)
+			logrus.WithField("user", user.Homeid).WithField("current-power", dataValue).Info("查询电量成功")
 			user.send(token, fmt.Sprintf("当前电量: %s", dataValue), fmt.Sprintf("http://157.0.19.2:10063/mypower/%s", user.Homeid))
 			appendFile(fmt.Sprintf("data/%s/value.txt", user.Homeid), fmt.Sprintf("%s\n", dataValue))
 			appendFile(fmt.Sprintf("data/%s/time.txt", user.Homeid), fmt.Sprintf("%s\n", time.Now().Format("2006-01-02")))
@@ -52,16 +51,15 @@ func (user *User) Check(token string) {
 
 // 向指定文件追加写入内容
 func appendFile(filename string, content string) error {
-	filex.CreateFile(filename)
-	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY, 0666)
+	f, err := filex.FileCreate(filename)
 	if err != nil {
-		logx.MyAll.Errorf("打开文件失败: %s", err)
+		logrus.WithError(err).Error("打开文件失败")
 		return err
 	}
 	defer f.Close()
 	_, err = f.WriteString(content)
 	if err != nil {
-		logx.MyAll.Errorf("写入文件失败: %s", err)
+		logrus.WithError(err).Error("写入文件失败")
 		return err
 	}
 	return nil
@@ -69,7 +67,7 @@ func appendFile(filename string, content string) error {
 
 func (user *User) send(token, title, msg string) {
 	if token == "" {
-		logx.MyAll.Debugf("未设置pushplus token")
+		logrus.Debug("未设置pushplus token")
 		return
 	}
 	var data []byte
@@ -80,7 +78,7 @@ func (user *User) send(token, title, msg string) {
 	}
 	response, err := http.Post("http://www.pushplus.plus/send", "application/json", bytes.NewBuffer(data))
 	if err != nil {
-		logx.MyAll.WithField("user", user.Homeid).Errorf("发送邮件失败: %s", err)
+		logrus.WithField("user", user.Homeid).WithError(err).Errorf("发送邮件失败")
 		return
 	}
 	defer response.Body.Close()

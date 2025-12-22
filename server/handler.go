@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jiny3/gopkg/logx"
+	"github.com/sirupsen/logrus"
 )
 
 // CORS中间件
@@ -31,7 +31,7 @@ func data(c *gin.Context) {
 	// 读取value.txt文件并生成数组
 	value, err := readData(fmt.Sprintf("data/%s/value.txt", homeid))
 	if err != nil {
-		logx.MyAll.Errorf("读取value.txt文件失败: %s", err)
+		logrus.WithError(err).Error("读取value.txt文件失败")
 		c.JSON(http.StatusGatewayTimeout, gin.H{
 			"message": "读取文件失败",
 		})
@@ -54,7 +54,7 @@ func data(c *gin.Context) {
 	// 读取timeTxt.txt文件并生成数组
 	timeTxt, err := readData(fmt.Sprintf("data/%s/time.txt", homeid))
 	if err != nil {
-		logx.MyAll.Errorf("读取time.txt文件失败: %s", err)
+		logrus.WithError(err).Error("读取time.txt文件失败")
 		c.JSON(http.StatusGatewayTimeout, gin.H{
 			"message": "读取文件失败",
 		})
@@ -63,10 +63,9 @@ func data(c *gin.Context) {
 	// 计算天数差
 	for i := 1; i < len(timeTxt)-1; i++ {
 		// 解析时间
-		// logx.MyAll.Debugf("%s", timeTxt[i-1])
 		t1, err := time.Parse("2006-01-02", timeTxt[i-1][:10])
 		if err != nil {
-			logx.MyAll.Errorf("解析时间失败: %s", err)
+			logrus.WithError(err).Error("解析时间失败")
 			c.JSON(http.StatusGatewayTimeout, gin.H{
 				"message": "解析时间失败",
 			})
@@ -74,7 +73,7 @@ func data(c *gin.Context) {
 		}
 		t2, err := time.Parse("2006-01-02", timeTxt[i])
 		if err != nil {
-			logx.MyAll.Errorf("解析时间失败: %s", err)
+			logrus.WithError(err).Error("解析时间失败")
 			c.JSON(http.StatusGatewayTimeout, gin.H{
 				"message": "解析时间失败",
 			})
