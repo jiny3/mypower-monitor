@@ -6,8 +6,10 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jiny3/gopkg/filex"
+	"github.com/jiny3/gopkg/configx"
 	"github.com/jiny3/gopkg/logx"
+	"github.com/sirupsen/logrus"
+
 	"github.com/jiny3/mypower-monitor/checkdaily"
 	"github.com/jiny3/mypower-monitor/server"
 )
@@ -18,8 +20,12 @@ var checkdailyYaml struct {
 }
 
 func init() {
-	filex.ReadConfig("config", "userlist", &checkdailyYaml)
-	logx.MyAll.Debugf("读取用户列表成功: %v", checkdailyYaml)
+	logx.InitLogrus(logx.WithOpsJSON("logs/ops.log"))
+	err := configx.Read("config/userlist.yaml", &checkdailyYaml)
+	if err != nil {
+		logrus.WithError(err).Fatal("read userlist failed")
+	}
+	logrus.Debug("read userlist success")
 }
 
 func main() {
@@ -46,11 +52,10 @@ func main() {
 	}(checkdailyYaml)
 
 	port := 7001 // master的端口
-	// gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
 	server.Init(r)
 
-	logx.MyAll.Infof("server start at :%d", port)
+	logrus.WithField("port", port).Info("server running ...")
 	r.Run(fmt.Sprintf(":%d", port))
 }
