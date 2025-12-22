@@ -2,18 +2,18 @@
 var myChart = echarts.init(document.getElementById('main'));
 
 // 发送GET请求
-fetch('http://157.0.19.2:10063/mypower/data/{{.homeid}}')
+fetch('http://157.0.19.2:10063/mypower/data/{{.roomid}}')
     .then(response => response.json())
     .then(data => {
         console.log(data)
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '{{.homeid}}宿舍剩余电量: ' + data.current + '度'
+                text: '{{.roomid}}宿舍剩余电量: ' + data.current + '度'
             },
             tooltip: {},
             legend: {
-                data: ['近30天耗电量']
+                data: ['近期耗电量']
             },
             xAxis: {
                 type: 'category',
@@ -24,7 +24,7 @@ fetch('http://157.0.19.2:10063/mypower/data/{{.homeid}}')
             },
             series: [
                 {
-                    name: '近30天耗电量',
+                    name: '近期耗电量',
                     type: 'bar',
                     data: data.value,
                     label: {
