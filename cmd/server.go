@@ -34,10 +34,13 @@ func runServer(cmd *cobra.Command, args []string) {
 	if len(args) > 0 {
 		port = args[0]
 	}
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.LoggerWithConfig(gin.LoggerConfig{
+		Output: logrus.StandardLogger().Out,
+	}))
 
-	service.Init(r)
-	r.GET("/data/:roomid", service.GetRoomHistory)
+	service.Static(r)
+	r.GET("/history/:roomid", service.GetRoomHistory)
 
 	logrus.WithField("port", port).Info("server running ...")
 	r.Run(fmt.Sprintf(":%s", port))

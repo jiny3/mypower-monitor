@@ -9,13 +9,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func Init(r *gin.Engine) {
-	r.Use(gin.LoggerWithConfig(gin.LoggerConfig{
-		Output: logrus.StandardLogger().Out,
-	}))
+func Static(r *gin.Engine) {
 	r.Use(cors)
 	// 静态文件服务
-	staticInit(r)
+	static(r)
 }
 
 // CORS中间件
@@ -32,7 +29,7 @@ func cors(c *gin.Context) {
 }
 
 // static 文件夹存放静态文件
-func staticInit(r *gin.Engine) {
+func static(r *gin.Engine) {
 	r.LoadHTMLFiles("static/index.html")
 	r.GET("/:roomid", func(c *gin.Context) {
 		roomid := c.Param("roomid")
