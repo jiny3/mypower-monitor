@@ -17,18 +17,18 @@ bin/*
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+.vscode
 
 # Go workspace file
 go.work
 go.work.sum
 go.sum
 
-# data file
-**/time.txt
-**/value.txt
+# db file
+*.db
 
 # log
-**/*.log
+*.log
 
 # config
-**/*.yaml
+*.toml
