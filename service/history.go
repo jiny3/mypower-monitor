@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -32,15 +33,26 @@ func GetRoomHistory(c *gin.Context) {
 		valueFloat[i] = value
 	}
 
-	// 将 value 数据转化为 差分数据
-	valueDiff := make([]float64, len(valueFloat))
-	for i := 1; i < len(valueFloat); i++ {
-		valueDiff[i] = valueFloat[i-1] - valueFloat[i]
+	// 将数据转化为差分数据
+	n := len(metrics)
+	valueDiff := []string{}
+	timeDiff := []string{}
+	for i := 1; i < n; i++ {
+		// 求相隔天数(向上取整)
+		day := metrics[i].CreatedAt.Day() - metrics[i-1].CreatedAt.Day()
+		if day <= 0 {
+			continue
+		}
+		if day > 1 {
+			timeList[i] = fmt.Sprintf("%s (近%d天)", timeList[i], day)
+		}
+		valueDiff = append(valueDiff, fmt.Sprintf("%.2f", valueFloat[i-1]-valueFloat[i]))
+		timeDiff = append(timeDiff, timeList[i])
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"current": valueFloat[len(valueFloat)-1],
-		"time":    timeList[1:],
-		"value":   valueDiff[1:],
+		"time":    timeDiff,
+		"value":   valueDiff,
 	})
 }
