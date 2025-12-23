@@ -77,33 +77,32 @@ docker run -d \
 ## 目录结构
 
 ```bash
- .
-├──  cmd
-│   ├──  check.go
-│   ├──  root.go
-│   ├──  server.go
-│   └──  utils.go
-├── 󰡯 dockerfile
-├──  go.mod
-├──  go.sum
-├──  history.db  # 历史记录数据库
-├──  library
-│   ├──  check.go
-│   ├──  datahub.go
-│   ├──  encrypt_aes.go
-│   └──  pushplus.go
-├──  LICENSE
-├──  main.go
-├──  ops.log     # json 格式 log
-├── 󰂺 README.md
-├──  service
-│   ├──  history.go
-│   └──  static.go
-├──  static
-│   ├──  echarts.js
-│   ├──  index.html
-│   └──  my.js
-└──  users.toml  # 用户配置
+├── cmd
+│   ├── check.go
+│   ├── root.go
+│   ├── server.go
+│   └── utils.go
+├── dockerfile
+├── go.mod
+├── go.sum
+├── history.db  # 历史记录数据库
+├── library
+│   ├── check.go
+│   ├── datahub.go
+│   ├── encrypt_aes.go
+│   └── pushplus.go
+├── LICENSE
+├── main.go
+├── ops.log     # json 格式 log
+├── README.md
+├── service
+│   ├── history.go
+│   └── static.go
+├── static
+│   ├── echarts.js
+│   ├── index.html
+│   └── my.js
+└── users.toml  # 用户配置
 ```
 
 ## License
