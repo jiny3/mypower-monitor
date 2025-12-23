@@ -2,9 +2,10 @@ package library
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 type PushPlusClient struct {
@@ -12,9 +13,10 @@ type PushPlusClient struct {
 	To    string `mapstructure:"to"`
 }
 
-func (p *PushPlusClient) Send(title, msg string) error {
+func (p *PushPlusClient) Send(title, msg string) {
 	if p.Token == "" {
-		return errors.New("pushplus token 为空")
+		logrus.Error("pushplus token 为空")
+		return
 	}
 	var data []byte
 	if p.To == "" {
@@ -24,8 +26,8 @@ func (p *PushPlusClient) Send(title, msg string) error {
 	}
 	response, err := http.Post("http://www.pushplus.plus/send", "application/json", bytes.NewBuffer(data))
 	if err != nil {
-		return err
+		logrus.WithError(err).Error("发送 PushPlus 消息失败")
+		return
 	}
 	defer response.Body.Close()
-	return nil
 }
