@@ -2,7 +2,7 @@
 var myChart = echarts.init(document.getElementById('main'));
 
 // 发送GET请求
-fetch('http://157.0.19.2:10063/mypower/data/{{.roomid}}')
+fetch('/history/{{.roomid}}')
     .then(response => response.json())
     .then(data => {
         console.log(data)
