@@ -184,7 +184,7 @@ func (u *User) login() error {
 	}
 	defer postResp.Body.Close()
 
-	logrus.WithField("cookie", u.httpClient.Jar.Cookies(&loginURL)).Info("登录成功")
+	logrus.WithField("cookie", u.httpClient.Jar.Cookies(&loginURL)).Debug("登录成功")
 	return nil
 }
 
