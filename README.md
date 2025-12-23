@@ -56,8 +56,13 @@ to = "xxxxxxxxxxxxxxx"       # (可选) PushPlus 好友ID
 ./bin/ucasnj-smi server 9090
 ```
 
-### 4. Docker 部署
+#### 最佳实践
 
+1. 启动 web 服务
+
+2. 使用 `cron` 等定时执行工具执行 `./bin/ucasnj-smi check` (注意执行时 `$PWD` 为 `history.db` 所在文件夹，否则历史记录不会被记录)
+
+### 4. Docker 部署 ucasnj-smi-server
 ```bash
 # 构建镜像
 docker build -t ucasnj-smi .
@@ -66,16 +71,40 @@ docker build -t ucasnj-smi .
 docker run -d \
   --name ucasnj-smi-server \
   -p 8080:8080 \
-  jiny14/ucasnj-smi
+  crpi-z6352oddczzzx18w.cn-hangzhou.personal.cr.aliyuncs.com/jiny3/ucasnj-smi:latest
 ```
 
 ## 目录结构
 
-- `cmd/`: 命令行入口及逻辑
-- `service/`: Web 服务逻辑
-- `library/`: 核心功能库 (爬虫、加密、推送)
-- `static/`: 前端静态资源
-- `users.toml`: 用户配置文件
+```bash
+ .
+├──  cmd
+│   ├──  check.go
+│   ├──  root.go
+│   ├──  server.go
+│   └──  utils.go
+├── 󰡯 dockerfile
+├──  go.mod
+├──  go.sum
+├──  history.db  # 历史记录数据库
+├──  library
+│   ├──  check.go
+│   ├──  datahub.go
+│   ├──  encrypt_aes.go
+│   └──  pushplus.go
+├──  LICENSE
+├──  main.go
+├──  ops.log     # json 格式 log
+├── 󰂺 README.md
+├──  service
+│   ├──  history.go
+│   └──  static.go
+├──  static
+│   ├──  echarts.js
+│   ├──  index.html
+│   └──  my.js
+└──  users.toml  # 用户配置
+```
 
 ## License
 
