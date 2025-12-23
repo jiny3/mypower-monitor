@@ -49,6 +49,7 @@ func check(cmd *cobra.Command, args []string) {
 		wg.Add(1)
 		go func(u library.User) {
 			defer wg.Done()
+			u.Init()
 			u.Check()
 		}(user)
 	}
